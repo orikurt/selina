@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Param, Query, Body, HttpException, HttpStatus } from '@nestjs/common';
 import { LocationsService } from './locations.service';
 import { Location } from './location.interface';
-import { RoomParams, BookParams } from 'src/rooms/room.validation';
+import { RoomParams, BookParams } from '../rooms/room.validation';
+import { LocationParams } from './location.validation';
 
 @Controller('locations')
 export class LocationsController {
@@ -10,6 +11,11 @@ export class LocationsController {
   @Get()
   async index(): Promise<Location[]> {
     return this.locationsService.index();
+  }
+
+  @Post()
+  async create(@Body() body: LocationParams): Promise<Location> {
+    return this.locationsService.create(body);
   }
 
   @Get(':id/rooms')
