@@ -14,6 +14,6 @@ export class LocationsService {
     }
 
     async index(): Promise<Location[]>{
-        return this.locationModel.find();
+        return this.locationModel.find({}, {country: 1, city: 1, _id: 1});
     }
 }

@@ -1,8 +1,7 @@
-import * as mongoose from 'mongoose';
-import { RoomSchema } from '../rooms/room.schema';
+import { Schema } from 'mongoose';
 
-export const LocationSchema = new mongoose.Schema({
+export const LocationSchema = new Schema({
     city: String,    
     country: String,
-    rooms: [RoomSchema]
+    rooms: [Schema.Types.ObjectId]
 });

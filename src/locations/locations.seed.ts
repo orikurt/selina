@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { LocationSchema } from './location.schema';
+import { RoomSchema } from '../rooms/room.schema';
 
 mongoose.connect("mongodb://localhost/selina", function(err){
     if (err){
@@ -9,6 +10,7 @@ mongoose.connect("mongodb://localhost/selina", function(err){
 });
 
 const locationModel = mongoose.model('Location', LocationSchema);
+const roomModel = mongoose.model('Room', RoomSchema);
 
 const roomsData = [
     {
@@ -29,32 +31,26 @@ const locationsData = [
     {
         city: 'Antigua',
         country: 'Guatamala',
-        rooms: roomsData
     },
     {
         city: 'Bocas del toro',
         country: 'Panama',
-        rooms: roomsData
     },
     {
         city: 'Cancun',
         country: 'Mexico',
-        rooms: roomsData
     },
     {
         city: 'Cartagena',
         country: 'Colombia',
-        rooms: roomsData
     },
     {
         city: 'Granada',
         country: 'Nicaragua',
-        rooms: roomsData
     },
     {
         city: 'Ontario',
         country: 'Canada',
-        rooms: roomsData
     }
 ];
 
@@ -63,7 +59,15 @@ let count = 0;
 for (let i in locationsData){
     console.log(`creating ${locationsData[i].city}, ${locationsData[i].country}`);
     const location = locationModel(locationsData[i]);
-    location.save().then(() => {
+    location.save().then(async () => {
+        for (let i in roomsData){
+            let roomData = roomsData[i];
+            for (let j = 0; j < 10; j++){
+                roomData['locationId'] = location.id;
+                const room = roomModel(roomData);
+                await room.save();
+            }
+        }
         count++;
         if (count == locationsData.length){
             process.exit();
