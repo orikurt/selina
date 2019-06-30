@@ -1,20 +1,27 @@
-import { Controller, Get, Req, Post } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body } from '@nestjs/common';
 import { LocationsService } from './locations.service';
 import { Location } from './location.interface';
-import { Request } from 'express';
+import { RoomParams, BookParams } from 'src/rooms/room.validation';
 
 @Controller('locations')
 export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
   @Get()
-  async index(@Req() request: Request): Promise<Location[]> {
+  async index(): Promise<Location[]> {
     return this.locationsService.index();
-    // return request.url;
   }
 
-  @Post()
-  async create(@Req() request: Request){
-      return this.locationsService.create(request.body);
+  @Get(':id/rooms')
+  async findRooms(@Param() params, @Query() query: RoomParams){
+    return this.locationsService.findRooms(params.id, query.from, query.until);
+  }
+
+  @Post(':id/rooms')
+  async bookRoom(@Param() params, @Body() body: BookParams){
+    console.log(body);
+    const result = this.locationsService.bookRoom(params.id, body.roomType, body.from, body.until);
+    console.log(result);
+    return result;
   }
 }
