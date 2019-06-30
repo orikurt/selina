@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Query, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body, HttpException, HttpStatus } from '@nestjs/common';
 import { LocationsService } from './locations.service';
 import { Location } from './location.interface';
 import { RoomParams, BookParams } from 'src/rooms/room.validation';
@@ -19,9 +19,10 @@ export class LocationsController {
 
   @Post(':id/rooms')
   async bookRoom(@Param() params, @Body() body: BookParams){
-    console.log(body);
-    const result = this.locationsService.bookRoom(params.id, body.roomType, body.from, body.until);
-    console.log(result);
+    const result = await this.locationsService.bookRoom(params.id, body.roomType, body.from, body.until);
+    if (!result){
+        throw new HttpException('No room available', HttpStatus.BAD_REQUEST);
+    }
     return result;
   }
 }

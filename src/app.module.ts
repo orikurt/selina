@@ -6,7 +6,7 @@ import { LocationsModule } from './locations/location.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/selina'),
+    MongooseModule.forRoot('mongodb://localhost/selina', { useFindAndModify: false }),
     LocationsModule
   ],
   controllers: [AppController],
