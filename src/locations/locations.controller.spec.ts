@@ -6,31 +6,25 @@ import { LocationSchema } from './location.schema';
 import { RoomSchema } from '../rooms/room.schema';
 
 describe('LocationsController', () => {
-  global.Promise = jest.requireActual('promise');
   let locationsController: LocationsController;
   let locationsService: LocationsService;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     locationsService = new LocationsService(model('Location', LocationSchema), model('Room', RoomSchema));
     locationsController = new LocationsController(locationsService);
   });
 
-  describe('CRUD locations', () => {
-    it('succeeds create location', async (done) => {
-        const createdLocation = await locationsController.create({
+  describe('CRUD locations', async () => {
+
+    it('succeeds create location', () => {
+        locationsController.create({
             city: 'Mumbay',
             country: 'India'
-        });
-        return expect(createdLocation).toHaveProperty('_id');
+        }).then((createdLocation)=>expect(createdLocation).toHaveProperty('_id'));
     });
 
-    it('gets all locations', async (done) => {
-        await locationsController.create({
-            city: 'Mumbay',
-            country: 'India'
-        });
-        const locations = await locationsController.index();
-        return expect(locations).toHaveLength(1);
+    it('gets all locations', () => {
+        locationsController.index().then(locations=>expect(locations).toHaveLength(1));
     })
   });
 });
