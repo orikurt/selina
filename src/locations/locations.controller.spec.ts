@@ -14,13 +14,13 @@ describe('LocationsController', () => {
     locationsController = new LocationsController(locationsService);
   });
 
-  describe('CRUD locations', async () => {
+  describe('CRUD locations', () => {
 
     it('succeeds create location', () => {
         locationsController.create({
             city: 'Mumbay',
             country: 'India'
-        }).then((createdLocation)=>expect(createdLocation).toHaveProperty('_id'));
+        }).then((createdLocation)=>expect(createdLocation).toHaveProperty('rooms'));
     });
 
     it('gets all locations', () => {
