@@ -24,13 +24,22 @@ export class LocationsService {
     // async findRooms(locationId: String, from: Date, until: Date){
     //     return this.roomModel.aggregate([
     //         { $match: {
-    //             locationId: Types.ObjectId(locationId), 
+    //             // locationId: Types.ObjectId(locationId), 
+    //             locationId,
     //             "bookings.from": { 
-    //                 $not :{ $gte: from, $lte: until } 
+    //                 $not: { $gte: from, $lte: until } 
     //             },
     //             "bookings.until": { 
-    //                 $not :{ $gte: from, $lte: until }
-    //             }
+    //                 $not: { $gte: from, $lte: until }
+    //             },
+    //             $and: [
+    //                 { "bookings.from": { 
+    //                     $not: { $lt: from }
+    //                 }},
+    //                 { "bookings.until": { 
+    //                     $not: { $gt: until }
+    //                 }},
+    //             ]
     //         } },
     //         { $group: { 
     //             _id: "$roomType", 
