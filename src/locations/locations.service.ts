@@ -59,7 +59,7 @@ export class LocationsService {
             ]
         }, 
         {
-            _id: 0,
+            _id: 1,
             roomType: 1,
             price: 1
         });
