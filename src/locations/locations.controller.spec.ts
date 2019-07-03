@@ -28,18 +28,19 @@ describe('Locations Service', () => {
 
   describe('Booking', () => {
 
-      it('Find available rooms', () => {
-        locationModel.create({
+      it('Find available rooms', (done) => {
+        return locationModel.create({
             city: 'Shasta',
             country: 'mCnasty'
         }).then( (location) => {
-            roomModel.create({
+            return roomModel.create({
                 roomType: 'Dorm',
                 price: 10.0,
                 locationId: location._id
             }).then( (room) => {
-                locationsService.findRooms(location._id, new Date('2019-07-05T00:00:00.000Z'), new Date('2019-07-15T00:00:00.000Z')).then((rooms)=>{
+                return locationsService.findRooms(location._id, new Date('2019-07-05T00:00:00.000Z'), new Date('2019-07-15T00:00:00.000Z')).then((rooms)=>{
                     expect(rooms[0]._id).toEqual(room._id);
+                    done();
                 });
             });
         });

@@ -58,14 +58,14 @@ export class LocationsService {
             "bookings.until": { 
                 $not: { $gte: from, $lte: until }
             },
-            $and: [
-                { "bookings.from": { 
-                    $not: { $lt: from }
-                }},
-                { "bookings.until": { 
-                    $not: { $gt: until }
-                }},
-            ]
+            bookings: { 
+                $not: { 
+                    "$elemMatch": { 
+                        "from": { $lt: from }, 
+                        "until": { $gt: until }
+                    } 
+                } 
+            },
         }, 
         {
             _id: 1,
@@ -84,14 +84,14 @@ export class LocationsService {
             "bookings.until": { 
                 $not: { $gte: from, $lte: until }
             },
-            $and: [
-                { "bookings.from": { 
-                    $not: { $lt: from }
-                }},
-                { "bookings.until": { 
-                    $not: { $gt: until }
-                }},
-            ]
+            bookings: { 
+                $not: { 
+                    "$elemMatch": { 
+                        "from": { $lt: from }, 
+                        "until": { $gt: until }
+                    } 
+                } 
+            },
         },
         { $push: { bookings: { from: from, until: until } }},
         { new: true }
