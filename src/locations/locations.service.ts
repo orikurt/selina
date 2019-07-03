@@ -12,12 +12,12 @@ export class LocationsService {
         @InjectModel('Room') private readonly roomModel: Model<Room>
         ) {};
     
-    async create(locationData){
+    create(locationData){
         const location = new this.locationModel(locationData);
-        return await location.save();
+        return location.save();
     }
 
-    async index(): Promise<Location[]>{
+    index(): Promise<Location[]>{
         return this.locationModel.find({}, {country: 1, city: 1, _id: 1});
     }
 
@@ -49,7 +49,7 @@ export class LocationsService {
     //     ]);
     // }
 
-    async findRooms(locationId: String, from: Date, until: Date){
+    findRooms(locationId: String, from: Date, until: Date){
         return this.roomModel.find({
             locationId,
             "bookings.from": { 
@@ -74,7 +74,7 @@ export class LocationsService {
         });
     }
 
-    async bookRoom(locationId: String, roomType: String, from: Date, until: Date){
+    bookRoom(locationId: String, roomType: String, from: Date, until: Date){
         return this.roomModel.findOneAndUpdate({
             locationId,
             roomType, 
